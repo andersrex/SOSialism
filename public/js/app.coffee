@@ -4,9 +4,9 @@ angular.module('app', [
   'app.services',
 ]).config ($routeProvider, $locationProvider) ->
   $routeProvider.when '/',
-    templateUrl: 'templates/index.html',
-    controller: 'IndexCtrl'
-  .when '/search',
+    templateUrl: 'templates/home.html',
+    controller: 'HomeCtrl'
+  .when '/search/:operation',
     templateUrl: 'templates/search.html',
     controller: 'SearchCtrl'
   .otherwise

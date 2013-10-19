@@ -3,8 +3,8 @@ controllers = angular.module 'app.controllers', []
 controllers.controller "MainCtrl", ["$scope", ($scope) ->
 ]
 
-controllers.controller "IndexCtrl", ["$scope", ($scope) ->
-  console.log "IndexCtrl"
+controllers.controller "HomeCtrl", ["$scope", ($scope) ->
+  console.log "HomeCtrl"
 ]
 
 controllers.controller "SearchCtrl", ["$scope", ($scope) ->
