@@ -1,0 +1,14 @@
+{
+    "name": "angelhack2013",
+    "description": "Angelhack 2013.",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "coffee-script": "latest",
+        "express": "3.x",
+        "jade": "latest"
+    },
+    "scripts": {
+        "start": "coffee -w app.coffee"
+    }
+}
