@@ -1,1 +1,20 @@
-search
+<div class="search-container">
+    <div class="map">
+        <div id="map_canvas" class="map-canvas" ui-map="map"
+             ui-options="mapOptions"
+             ui-event="{'map-idle' : 'onMapIdle()', 'map-tilesloaded' : 'onMapReady()'}">
+        </div>
+        <div ng-repeat="marker in markers" ui-map-marker="markers[$index]"
+             ui-event="{'map-click': 'markerClicked(marker)'}">
+        </div>
+    </div>
+    <div class="results" ng-repeat="result in results">
+        <div class="result">
+            <div class="result-name">{{ result.name }}</div>
+            <div class="result-address">
+                {{ result.street }}, {{ result.street }}, {{ result.state }}, {{ result.zip }}
+            </div>
+            165 Jessie Street, San Francisco, CA, 94105
+        </div>
+    </div>
+</div>

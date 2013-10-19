@@ -1,7 +1,10 @@
 angular.module('app', [
   'ngRoute',
+  "ui.map",
+  "ui.event",
   'app.controllers',
   'app.services',
+
 ]).config ($routeProvider, $locationProvider) ->
   $routeProvider.when '/',
     templateUrl: 'templates/home.html',
