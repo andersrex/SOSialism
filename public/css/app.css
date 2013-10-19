@@ -15,14 +15,12 @@ body {
     color: #333333;
     font-size: 16px;
     background-color: #f8f8f8;
-
 }
 
 header {
     height: 70px;
     background-color: white;
     border-bottom: 1px solid #dddddd;
-
 }
 
 a {
@@ -34,7 +32,7 @@ select {
     outline: 0;
     color: #666;
     padding: 8px 10px;
-    background: white;
+    background: #fbfbfb;
     -webkit-appearance: none;
     line-height: 120%;
     font-size: 16px;
@@ -61,9 +59,16 @@ select {
     -moz-border-radius: 5px;
     border-radius: 5px;
     text-decoration: none;
-    background: white;
+    background: #fbfbfb;
     display: inline-block;
 }
+
+.go-button:hover {
+    background: white;
+    border: 1px solid #cccccc;
+}
+
+
 .go-button:active {
     background: #eee
 }
@@ -77,9 +82,93 @@ select {
     padding-top: 100px;
 }
 
+.about {
+    max-width: 460px;
+    margin:0 auto;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.about h1 {
+    font-size: 20px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.about p {
+    margin-bottom: 10px;
+    line-height: 22px;
+}
+
+.map {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.map-canvas {
+    height: 100%;
+    width: 100%;
+}
+
+.search-container {
+    position: absolute;
+    top: 70px; right: 0; bottom: 0; left: 0;
+}
+
+.results {
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    left: 30px;
+    width: 300px;
+    background: rgba(255,255,255, 0.9);
+    overflow-y: scroll;
+}
+
+.result {
+    position: relative;
+    padding: 20px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+    cursor: pointer;
+}
+
+.result-name {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+.result-address {
+    color: #999;
+    font-size: 12px;
+}
+.result-price {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #94177a;
+}
 
 @media (max-width: 767px) {
     header {
         height: 44px;
+    }
+
+    .map {
+        height: 160px;
+    }
+
+    .search-container {
+        top: 44px;
+    }
+
+
+    .results {
+        position: relative;
+        width: 100%;
+        background: transparent;
+        top: 160px;
+        bottom: 0px;
+        left: 0px;
     }
 }

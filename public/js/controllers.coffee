@@ -20,6 +20,14 @@ controllers.controller "SearchCtrl", ["$scope", ($scope) ->
       price: 250
       ratings: 5
     },
+  {
+    name: "Hospital LILILI"
+    location: ""
+    street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
+    operation: "Knee surgery"
+    price: 200
+    ratings: 4
+  },
 
   ]
 

@@ -8,13 +8,14 @@
              ui-event="{'map-click': 'markerClicked(marker)'}">
         </div>
     </div>
-    <div class="results" ng-repeat="result in results">
-        <div class="result">
+    <div class="results">
+        <div class="result" ng-repeat="result in results">
             <div class="result-name">{{ result.name }}</div>
             <div class="result-address">
                 {{ result.street }}, {{ result.street }}, {{ result.state }}, {{ result.zip }}
             </div>
-            165 Jessie Street, San Francisco, CA, 94105
+            <div class="result-price">${{ result.price }}</div>
+
         </div>
     </div>
 </div>
