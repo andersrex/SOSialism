@@ -3,14 +3,14 @@ angular.module('app', [
   'app.controllers',
   'app.services',
 ]).config ($routeProvider, $locationProvider) ->
-#  $routeProvider.when '/',
-#    templateUrl: 'templates/index',
-#    controller: 'IndexCtrl'
-#  .when '/search',
-#    templateUrl: 'templates/search',
-#    controller: 'SearchCtrl'
-#  .otherwise
-#    redirectTo: '/'
+  $routeProvider.when '/',
+    templateUrl: 'templates/index.html',
+    controller: 'IndexCtrl'
+  .when '/search',
+    templateUrl: 'templates/search.html',
+    controller: 'SearchCtrl'
+  .otherwise
+    redirectTo: '/'
 
 #  $locationProvider.html5Mode(true)
 

@@ -4,6 +4,7 @@ controllers.controller "MainCtrl", ["$scope", ($scope) ->
 ]
 
 controllers.controller "IndexCtrl", ["$scope", ($scope) ->
+  console.log "IndexCtrl"
 ]
 
 controllers.controller "SearchCtrl", ["$scope", ($scope) ->

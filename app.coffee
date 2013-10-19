@@ -30,14 +30,13 @@ app.use(app.router)
 #app.use(require('less-middleware')({ src: __dirname + '/public' }))
 #app.use(express.static(path.join(__dirname, 'public')))
 
-
 if app.get('env') is 'development'
   app.use(express.errorHandler())
 
 #if app.get('env') is 'production'
 
 app.get '/', routes.index
-app.get '/templates/:name', routes.partials
+#app.get '/templates/:name', routes.templates
 
 app.get '/api/name', api.name
 
@@ -49,8 +48,6 @@ app.get '*', routes.index
 http.createServer(app).listen app.get('port'), ->
 
 console.log 'Express server listening on port ' + app.get('port')
-
-
 
 #http.createServer(app).listen(app.get('port'), function () {
 #console.log('Express server listening on port ' + app.get('port'));

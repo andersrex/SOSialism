@@ -1,6 +1,4 @@
 exports.index = (req, res) ->
+  console.log "index"
   res.render('index')
 
-exports.partials = (req, res) ->
-  name = req.params.name
-  res.render('partials/' + name)
