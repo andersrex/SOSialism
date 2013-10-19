@@ -1,21 +1,34 @@
 controllers = angular.module 'app.controllers', []
 
-controllers.controller "MainCtrl", ["$scope", ($scope) ->
+controllers.controller "MainCtrl",
+["$scope", "Restangular", "$window", "$location", "$rootScope",
+($scope, Restangular, $window, $location, $rootScope) ->
+  Restangular.one('operations').getList().then (operations) ->
+    $scope.operations = operations
+
+  $scope.$watch "selection", ->
+    if $scope.selection
+      $location.path("/search/#{$scope.selection}")
+
+  $scope.$on '$locationChangeSuccess', (event) ->
+    $scope.selection = $window.location.hash.split("/")[2]
+    $rootScope.page = $scope.page = $window.location.hash.split("/")[1]
+    console.log "$locationChangeSuccess", $scope.selection
 ]
 
-controllers.controller "HomeCtrl", ["$scope", "Restangular", ($scope, Restangular) ->
+controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scope, Restangular, $location) ->
 
-  Restangular.one('operations').getList().then (operations) ->
-    console.log operations
-    $scope.operations = operations
+  $scope.search = ->
+    $location.path("/search/#{$scope.selection}")
+
+#  Restangular.one('operations').getList().then (operations) ->
+#    console.log operations
+#    $scope.operations = operations
 
 ]
 
 controllers.controller "SearchCtrl", ["$scope","$routeParams", "Restangular", ($scope, $routeParams, Restangular) ->
   $scope.markers = []
-
-  Restangular.one('operations').getList().then (operations) ->
-    $scope.operations = operations
 
   if $routeParams.operation
     Restangular.one('hospitals').getList().then (results) ->

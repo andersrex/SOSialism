@@ -1,4 +1,7 @@
 exports.hospitals = (req, res) ->
+
+  console.log req.params.operation
+
   res.json [
     {
       name: "Hospital Blablabla"
@@ -6,7 +9,7 @@ exports.hospitals = (req, res) ->
       street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
       operation: "Knee surgery"
       price: 250
-      ratings: 5
+      rating: 4.5
     },
     {
       name: "Hospital LILILI"
@@ -14,11 +17,12 @@ exports.hospitals = (req, res) ->
       street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
       operation: "Knee surgery"
       price: 200
-      ratings: 4
+      rating: 4
     }
   ]
 
 exports.operations = (req, res) ->
+
   res.json [
     {
       name: "Knee operation",
