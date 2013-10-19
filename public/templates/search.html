@@ -9,12 +9,14 @@
         </div>
     </div>
     <div class="results">
+        <div class="results-filters">Sort by price / ratings</div>
         <div class="result" ng-repeat="result in results">
             <div class="result-name">{{ result.name }}</div>
             <div class="result-address">
                 {{ result.street }}, {{ result.street }}, {{ result.state }}, {{ result.zip }}
             </div>
             <div class="result-price">${{ result.price }}</div>
+            <div class="result-stars"></div>
 
         </div>
     </div>

@@ -3,33 +3,24 @@ controllers = angular.module 'app.controllers', []
 controllers.controller "MainCtrl", ["$scope", ($scope) ->
 ]
 
-controllers.controller "HomeCtrl", ["$scope", ($scope) ->
-  console.log "HomeCtrl"
+controllers.controller "HomeCtrl", ["$scope", "Restangular", ($scope, Restangular) ->
+
+  Restangular.one('operations').getList().then (operations) ->
+    console.log operations
+    $scope.operations = operations
+
 ]
 
-controllers.controller "SearchCtrl", ["$scope", ($scope) ->
-  console.log "SearchCtrl"
+controllers.controller "SearchCtrl", ["$scope","$routeParams", "Restangular", ($scope, $routeParams, Restangular) ->
   $scope.markers = []
 
-  $scope.results = [
-    {
-      name: "Hospital Blablabla"
-      location: ""
-      street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
-      operation: "Knee surgery"
-      price: 250
-      ratings: 5
-    },
-  {
-    name: "Hospital LILILI"
-    location: ""
-    street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
-    operation: "Knee surgery"
-    price: 200
-    ratings: 4
-  },
+  Restangular.one('operations').getList().then (operations) ->
+    $scope.operations = operations
 
-  ]
+  if $routeParams.operation
+    Restangular.one('hospitals').getList().then (results) ->
+      console.log "Got results!"
+      $scope.results = results
 
   $scope.mapOptions =
     backgroundColor: "#edeae3"

@@ -3,14 +3,17 @@ extends layout
 block body
     header
         a(href="#/") Back
+        div(ng-include src="/templates/filter.html")
     div(ng-controller='MainCtrl')
         div.main-container(ng-view)
 
     script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAFjMEh3HIfkPo1wjVRL5MfWTTE2JFCQYc&sensor=false')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.js')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular-route.js')
+    script(src='js/lib/underscore-min.js')
     script(src='js/lib/event.js')
     script(src='js/lib/ui-map.min.js')
+    script(src='js/lib/restangular.js')
     script(src='js/app.js')
     script(src='js/services.js')
     script(src='js/controllers.js')

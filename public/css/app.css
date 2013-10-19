@@ -125,6 +125,19 @@ select {
     width: 300px;
     background: rgba(255,255,255, 0.9);
     overflow-y: scroll;
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+.results-filters {
+    color: #999;
+    padding: 2px 0;
+    text-align: center;
+    /*padding: 0 20px;*/
+    font-size: 13px;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
 }
 
 .result {
@@ -135,18 +148,41 @@ select {
 }
 
 .result-name {
-    margin-bottom: 5px;
+    margin-bottom: 1px;
     font-size: 14px;
+
+    padding-right: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .result-address {
     color: #999;
     font-size: 12px;
+    /*margin-bottom: 5px;*/
+    padding-right: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .result-price {
     position: absolute;
     top: 20px;
     right: 20px;
     color: #94177a;
+}
+
+.result-stars {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    background: transparent;
+    background: transparent url('../images/stars_map.png') no-repeat;
+    background-size: 84px 325px;
+    background-size: 42px 167px;
+    height: 8px;
+    width: 42px;
 }
 
 @media (max-width: 767px) {

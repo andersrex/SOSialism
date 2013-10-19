@@ -4,8 +4,8 @@ angular.module('app', [
   "ui.event",
   'app.controllers',
   'app.services',
-
-]).config ($routeProvider, $locationProvider) ->
+  'restangular'
+]).config ($routeProvider, $locationProvider, RestangularProvider) ->
   $routeProvider.when '/',
     templateUrl: 'templates/home.html',
     controller: 'HomeCtrl'
@@ -14,6 +14,9 @@ angular.module('app', [
     controller: 'SearchCtrl'
   .otherwise
     redirectTo: '/'
+
+  RestangularProvider.setBaseUrl('/api/');
+
 
 #  $locationProvider.html5Mode(true)
 
