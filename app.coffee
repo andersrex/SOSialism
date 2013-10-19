@@ -27,17 +27,19 @@ app.use(express.methodOverride())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(app.router)
 
+#app.use(require('less-middleware')({ src: __dirname + '/public' }))
+#app.use(express.static(path.join(__dirname, 'public')))
+
+
 if app.get('env') is 'development'
   app.use(express.errorHandler())
 
 #if app.get('env') is 'production'
 
 app.get '/', routes.index
-app.get '/partials/:name', routes.partials
-
+app.get '/templates/:name', routes.partials
 
 app.get '/api/name', api.name
-
 
 app.get '*', routes.index
 
@@ -45,7 +47,8 @@ app.get '*', routes.index
 #  console.log "Listening on port #{app.get('port')}"
 
 http.createServer(app).listen app.get('port'), ->
-  console.log 'Express server listening on port ' + app.get('port')
+
+console.log 'Express server listening on port ' + app.get('port')
 
 
 

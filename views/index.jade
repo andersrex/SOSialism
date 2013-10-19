@@ -2,11 +2,12 @@ extends layout
 
 block body
     div(ng-controller='MainCtrl')
-        h2 Hello {{name}}
-        asdfasdf
+        div.main-container(ng-view)
+
 
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular.js')
     script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0-rc.3/angular-route.js')
     script(src='js/app.js')
     script(src='js/services.js')
     script(src='js/controllers.js')
+
