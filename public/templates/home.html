@@ -1,0 +1,19 @@
+<div class="home-container">
+    <div class="jumbotron">
+        Find prices and ratings for
+        <select>
+            <option value="">...</option>
+            <option ng-repeat="operation in operations" value="{{operation.slug}}">{{operation.name}}</option>
+        </select>
+        in San Francisco.
+        <div class="button-container">
+            <a class="go-button" href="#/search/knee">Go!</a>
+        </div>
+    </div>
+    <div class="about">
+        <h1>About Plaster</h1>
+        <p>The Plaster web app helps you compare different operations at different hospitals based on price and quality. Super handy if you need to get a brain surgery and are on a tight budget!</p>
+        <p>Plaster was born at the AngelHack Hospital. The birth lasted less than 24h and was assisted by and data surgeon Tele Hao and code doctor Anders Rex.</p>
+        <p>Chapeau!</p>
+    </div>
+</div>

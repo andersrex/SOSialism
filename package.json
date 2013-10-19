@@ -6,7 +6,8 @@
     "dependencies": {
         "coffee-script": "latest",
         "express": "3.x",
-        "jade": "latest"
+        "jade": "latest",
+        "less-middleware": "latest"
     },
     "scripts": {
         "start": "coffee -w app.coffee"
