@@ -38,7 +38,7 @@ if app.get('env') is 'development'
 app.get '/', routes.index
 #app.get '/templates/:name', routes.templates
 
-app.get '/api/hospitals', api.hospitals
+app.get '/api/hospitals/:operation', api.hospitals
 app.get '/api/operations', api.operations
 
 app.get '*', routes.index
