@@ -94,9 +94,9 @@ module DbImports
 
       # price
       price = {}
-      price['total_discharge'] = d['Total Discharges '].to_f
-      price['avg_covered_charge'] = d['Average Covered Charges '].to_f
-      price['avg_total_payment'] = d['Average Total Payments'].to_f
+      price['total_discharge'] = d[' Total Discharges '].to_f
+      price['avg_covered_charge'] = d[' Average Covered Charges '].to_f
+      price['avg_total_payment'] = d[' Average Total Payments '].to_f
       price_relationship = @neo.create_relationship('charges',
                                       hospital_node, operation_node)
       @neo.add_relationship_to_index(PRICE_VALUE_INDEX, 'avg_total_payment',
