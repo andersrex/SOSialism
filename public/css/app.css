@@ -295,6 +295,11 @@ select {
         height: 44px;
     }
 
+    select {
+        width: 260px;
+
+    }
+
     .logo {
         display: block;
         background: transparent url('../images/logo.png') no-repeat;
