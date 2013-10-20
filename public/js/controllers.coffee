@@ -45,10 +45,9 @@ controllers.controller "MainCtrl",
         $scope.markers = []
 
         for result in results
-          geocoder.geocode("#{result.street}, #{result.city}, #{result.state} #{result.zip}").then (location) ->
-            result.lat = location.lat()
-            result.lng = location.lng()
-            $scope.addMarker(result)
+          result.lat = result.loc[0]
+          result.lng = result.loc[1]
+          $scope.addMarker(result)
     , true
 
   $scope.markerClicked = (m) ->

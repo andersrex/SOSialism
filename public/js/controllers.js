@@ -37,8 +37,7 @@
       });
       $scope.$on('$locationChangeSuccess', function(event) {
         $scope.selection = $window.location.hash.split("/")[2];
-        $rootScope.page = $scope.page = $window.location.hash.split("/")[1];
-        return console.log("$locationChangeSuccess", $scope.selection);
+        return $rootScope.page = $scope.page = $window.location.hash.split("/")[1];
       });
       $scope.onMapReady = function() {
         return $rootScope.$watch("results", function() {
@@ -56,11 +55,9 @@
             _results = [];
             for (_j = 0, _len1 = results.length; _j < _len1; _j++) {
               result = results[_j];
-              _results.push(geocoder.geocode("" + result.street + ", " + result.city).then(function(location) {
-                result.lat = location.lat();
-                result.lng = location.lng();
-                return $scope.addMarker(result);
-              }));
+              result.lat = result.loc[0];
+              result.lng = result.loc[1];
+              _results.push($scope.addMarker(result));
             }
             return _results;
           }
@@ -68,8 +65,8 @@
       };
       $scope.markerClicked = function(m) {
         $scope.map.panTo(m.position);
-        console.log("panTo", m.position.lat(), m.position.lng());
         m.setAnimation(google.maps.Animation.BOUNCE);
+        $rootScope.selectResultByIndex($scope.markers.indexOf(m));
         return $timeout(function() {
           return m.setAnimation(null);
         }, 1440);
@@ -81,7 +78,6 @@
       return $scope.addMarker = function(result) {
         var marker;
 
-        console.log("Adding marker to", result.lng, result.lng);
         marker = new google.maps.Marker({
           map: $scope.map,
           position: new google.maps.LatLng(result.lat, result.lng),
@@ -122,23 +118,19 @@
       }
       $scope.selectResult = function(result, index) {
         $scope.selectedResult = result;
-        $rootScope.clickMarker(index);
-        return console.log("Selecting " + index);
+        return $rootScope.clickMarker(index);
       };
       $rootScope.selectResultByIndex = function(index) {
-        console.log("asdf");
         return $scope.selectedResult = $scope.results[index];
       };
       $scope.search = function() {
         $scope.orderByRatings = false;
-        console.log("false");
         if ($routeParams.operation) {
           return $location.path("/search/" + $routeParams.operation);
         }
       };
       return $scope.searchRatings = function() {
         $scope.orderByRatings = true;
-        console.log("true");
         if ($routeParams.operation) {
           return $location.path("/search/" + $routeParams.operation + "/rating");
         }
