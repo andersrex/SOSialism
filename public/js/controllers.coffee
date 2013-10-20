@@ -1,45 +1,10 @@
 controllers = angular.module 'app.controllers', []
 
 controllers.controller "MainCtrl",
-["$scope", "Restangular", "$window", "$location", "$rootScope",
-($scope, Restangular, $window, $location, $rootScope) ->
-  Restangular.one('operations').getList().then (operations) ->
-    $scope.operations = operations
-
-  $scope.$watch "selection", ->
-    if $scope.selection
-      $location.path("/search/#{$scope.selection}")
-
-  $scope.$on '$locationChangeSuccess', (event) ->
-    $scope.selection = $window.location.hash.split("/")[2]
-    $rootScope.page = $scope.page = $window.location.hash.split("/")[1]
-    console.log "$locationChangeSuccess", $scope.selection
-]
-
-controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scope, Restangular, $location) ->
-
-  $scope.search = ->
-    $location.path("/search/#{$scope.selection}") if $scope.selection
-
-
-#  Restangular.one('operations').getList().then (operations) ->
-#    console.log operations
-#    $scope.operations = operations
-
-]
-
-controllers.controller "SearchCtrl",
-["$scope","$routeParams", "Restangular", "geocoder", "$timeout",
-($scope, $routeParams, Restangular, geocoder, $timeout) ->
-  $scope.markers = []
+["$scope", "Restangular", "$window", "$location", "$rootScope", "geocoder", "$timeout",
+($scope, Restangular, $window, $location, $rootScope, geocoder, $timeout) ->
   $scope.pin = new google.maps.MarkerImage("/images/pin.png", null, null, null, new google.maps.Size(35,35))
-
-
-  if $routeParams.operation
-    Restangular.one('hospitals', $routeParams.operation).getList().then (results) ->
-      console.log "Got results!"
-      $scope.results = results
-
+  $scope.markers = []
   $scope.mapOptions =
     backgroundColor: "#edeae3"
     center: new google.maps.LatLng(37.780015, -122.446937)
@@ -56,34 +21,37 @@ controllers.controller "SearchCtrl",
       mapTypeControl: false
       position: google.maps.ControlPosition.RIGHT_TOP
 
-  $scope.selectResult = (result, index) ->
-    $scope.selectedResult = result
-    $scope.markerClicked($scope.markers[index])
-    console.log "Selecting #{index}"
+  Restangular.one('operations').getList().then (operations) ->
+    $scope.operations = operations
 
-  $scope.onMapIdle = ->
-  $scope.onMapReady = ->
-  $scope.markerClicked = ->
+  $scope.$watch "selection", ->
+    if $scope.selection
+      $location.path("/search/#{$scope.selection}")
+
+  $scope.$on '$locationChangeSuccess', (event) ->
+    $scope.selection = $window.location.hash.split("/")[2]
+    $rootScope.page = $scope.page = $window.location.hash.split("/")[1]
+    console.log "$locationChangeSuccess", $scope.selection
 
   # Markers should be added after map is loaded
   $scope.onMapReady = =>
-    $scope.$watch "results", ->
-      if $scope.results and $scope.results.length and not $scope.mapLoaded
+    $rootScope.$watch "results", ->
+      results = $rootScope.results
+
+      if results and results.length and not $scope.mapLoaded
         $scope.mapLoaded = true
 
         for m in $scope.markers
           m.setMap(null)
         $scope.markers = []
 
-        for result in $scope.results
+        for result in results
           geocoder.geocode("#{result.street}, #{result.city}").then (location) ->
             result.lat = location.lat()
             result.lng = location.lng()
             $scope.addMarker(result)
-
     , true
 
-  # Center on a clicked maker
   $scope.markerClicked = (m) ->
     $scope.map.panTo(m.position)
     console.log "panTo", m.position.lat(), m.position.lng()
@@ -93,10 +61,10 @@ controllers.controller "SearchCtrl",
       m.setAnimation(null)
     , 1440
 
-
+  $rootScope.clickMarker = (index) ->
+    $scope.markerClicked($scope.markers[index])
 
   $scope.addMarker = (result) ->
-
     console.log "Adding marker to", result.lng, result.lng
     marker = new google.maps.Marker
       map: $scope.map
@@ -106,6 +74,31 @@ controllers.controller "SearchCtrl",
 
     $scope.markers.push marker
 ]
+
+controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scope, Restangular, $location) ->
+
+  $scope.search = ->
+    $location.path("/search/#{$scope.selection}") if $scope.selection
+
+
+#  Restangular.one('operations').getList().then (operations) ->
+#    console.log operations
+#    $scope.operations = operations
+
+]
+
+controllers.controller "SearchCtrl",
+["$scope","$routeParams", "Restangular", "geocoder", "$rootScope",
+($scope, $routeParams, Restangular, geocoder, $rootScope) ->
+
+  if $routeParams.operation
+    Restangular.one('hospitals', $routeParams.operation).getList().then (results) ->
+      $rootScope.results = $scope.results = results
+
+  $scope.selectResult = (result, index) ->
+    $scope.selectedResult = result
+    $rootScope.clickMarker(index)
+    console.log "Selecting #{index}"
 
 
 
