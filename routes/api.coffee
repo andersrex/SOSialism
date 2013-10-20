@@ -30,7 +30,7 @@ exports.hospitals = (req, res) ->
         name: S(hospital_data.name).capitalize().s
         slug: hospital_data.slug
         operation: S(operation.name).capitalize().s
-        price: relationship_data.avg_total_price
+        price: relationship_data.avg_total_payment
         street: hospital_data.street
         city: hospital_data.city
         zip: hospital_data.zip
@@ -57,7 +57,7 @@ exports.operations = (req, res) ->
     output = []
 
     for _p in data2
-      temp_name = _p.op._data.data.name
+      temp_name = _p.op._data.data
       output.push(temp_name)
 
     res.json output
