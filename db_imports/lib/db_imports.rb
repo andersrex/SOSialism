@@ -188,7 +188,7 @@ module DbImports
     # clean up numbers
     _output = address.gsub(/\d+/, '')
     # remove address type
-    output_parts = _output.strip.gsub(/\s+/, ' ').gsub(/[^\w\s]+/,'').split(' ') - road_acronym
+    output_parts = _output.strip.gsub(/\s+/, ' ').gsub(/[^\w\s]+/,'').upcase.split(' ') - road_acronym
     # only street strings
     output_parts.join(' ').downcase
   end

@@ -6,7 +6,7 @@ exports.hospitals = (req, res) ->
   op_slug = req.params.operations
   conn = db.getConn()
 
-  order = req.query.order
+  order = req.query.order || 'price'
 
   query = [
     'START op=node:INDEX_NAME(INDEX_KEY="INDEX_VAL")',
@@ -25,10 +25,8 @@ exports.hospitals = (req, res) ->
 
   query = [
     query,
-    'ORDER BY rel.avg_total_payment DESC'
+    'ORDER BY rel.avg_total_payment'
   ].join('\n') if order == 'price'
-
-  console.log query
 
   conn.query(query, {}, (err, data2) ->
     throw err if (err)
