@@ -19,7 +19,7 @@ controllers.controller "MainCtrl",
       style: google.maps.ZoomControlStyle.SMALL
       overviewMapControl: false
       mapTypeControl: false
-      position: google.maps.ControlPosition.RIGHT_TOP
+      position: google.maps.ControlPosition.RIGHT_BOTTOM
 
   Restangular.one('operations').getList().then (operations) ->
     $scope.operations = operations
@@ -81,22 +81,35 @@ controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scop
 ]
 
 controllers.controller "SearchCtrl",
-["$scope","$routeParams", "Restangular", "geocoder", "$rootScope",
-($scope, $routeParams, Restangular, geocoder, $rootScope) ->
+["$scope","$routeParams", "Restangular", "geocoder", "$rootScope", "$location"
+($scope, $routeParams, Restangular, geocoder, $rootScope, $location) ->
 
   if $routeParams.operation
-    Restangular.one('hospitals', $routeParams.operation).getList().then (results) ->
-      $rootScope.results = $scope.results = results
+    if $routeParams.order is "rating"
+      $scope.orderByRatings = true
+
+      Restangular.one('hospitals', $routeParams.operation).customGETLIST("", {order: "rating"}).then (results) ->
+        $rootScope.results = $scope.results = results
+    else
+      $scope.orderByRatings = false
+      Restangular.one('hospitals', $routeParams.operation).getList().then (results) ->
+        $rootScope.results = $scope.results = results
 
   $scope.selectResult = (result, index) ->
     $scope.selectedResult = result
     $rootScope.clickMarker(index)
     console.log "Selecting #{index}"
+
+  $scope.search = ->
+    $scope.orderByRatings = false
+    console.log "false"
+    $location.path("/search/#{$routeParams.operation}") if $routeParams.operation
+
+  $scope.searchRatings = ->
+    $scope.orderByRatings = true
+    console.log "true"
+    $location.path("/search/#{$routeParams.operation}/rating") if $routeParams.operation
 ]
-
-#  $scope.search = ->
-#    $location.path("/search/#{$scope.selection}") if $scope.selection
-
 
 
 

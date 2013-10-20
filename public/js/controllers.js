@@ -24,7 +24,7 @@
           style: google.maps.ZoomControlStyle.SMALL,
           overviewMapControl: false,
           mapTypeControl: false,
-          position: google.maps.ControlPosition.RIGHT_TOP
+          position: google.maps.ControlPosition.RIGHT_BOTTOM
         }
       };
       Restangular.one('operations').getList().then(function(operations) {
@@ -103,16 +103,40 @@
   ]);
 
   controllers.controller("SearchCtrl", [
-    "$scope", "$routeParams", "Restangular", "geocoder", "$rootScope", function($scope, $routeParams, Restangular, geocoder, $rootScope) {
+    "$scope", "$routeParams", "Restangular", "geocoder", "$rootScope", "$location", function($scope, $routeParams, Restangular, geocoder, $rootScope, $location) {
       if ($routeParams.operation) {
-        Restangular.one('hospitals', $routeParams.operation).getList().then(function(results) {
-          return $rootScope.results = $scope.results = results;
-        });
+        if ($routeParams.order === "rating") {
+          $scope.orderByRatings = true;
+          Restangular.one('hospitals', $routeParams.operation).customGETLIST("", {
+            order: "rating"
+          }).then(function(results) {
+            return $rootScope.results = $scope.results = results;
+          });
+        } else {
+          $scope.orderByRatings = false;
+          Restangular.one('hospitals', $routeParams.operation).getList().then(function(results) {
+            return $rootScope.results = $scope.results = results;
+          });
+        }
       }
-      return $scope.selectResult = function(result, index) {
+      $scope.selectResult = function(result, index) {
         $scope.selectedResult = result;
         $rootScope.clickMarker(index);
         return console.log("Selecting " + index);
+      };
+      $scope.search = function() {
+        $scope.orderByRatings = false;
+        console.log("false");
+        if ($routeParams.operation) {
+          return $location.path("/search/" + $routeParams.operation);
+        }
+      };
+      return $scope.searchRatings = function() {
+        $scope.orderByRatings = true;
+        console.log("true");
+        if ($routeParams.operation) {
+          return $location.path("/search/" + $routeParams.operation + "/rating");
+        }
       };
     }
   ]);

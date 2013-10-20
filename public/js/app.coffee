@@ -12,6 +12,9 @@ angular.module('app', [
   .when '/search/:operation',
     templateUrl: 'templates/search.html',
     controller: 'SearchCtrl'
+  .when '/search/:operation/:order',
+    templateUrl: 'templates/search.html',
+    controller: 'SearchCtrl'
   .otherwise
     redirectTo: '/'
 
