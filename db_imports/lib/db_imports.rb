@@ -8,7 +8,6 @@ require 'db_imports/models/operation'
 
 require 'db_imports/bay_area_zip'
 
-
 module DbImports
 
   HOSPITAL_SLUG_INDEX = 'hospital_slug'
@@ -20,10 +19,6 @@ module DbImports
 
   def self.slugify(string)
     string.gsub(/[^\w\s]+/,'').gsub(/\s+/,' ').gsub(' ','-').downcase
-  end
-
-  def self.aggregate_rating(ratings)
-    5.0
   end
 
   def self.load_hospitals(data)
@@ -66,18 +61,13 @@ module DbImports
 
       # hospitals
       hospital = {}
-      hospital['street'] = d['Provider Street Address']
-      hospital['city'] = d['Provider City']
+      hospital['street'] = d['Provider Street Address'].split(' ').map{|x| x.capitalize}.join(' ')
+      hospital['city'] = d['Provider City'].split(' ').map{|x| x.capitalize}.join(' ')
       hospital['state'] = d['Provider State']
       hospital['zip'] = d['Provider Zip Code']
-      hospital['name'] = d['Provider Name']
+      hospital['name'] = self._clean_up_hospital_name(d['Provider Name'])
       hospital['uid'] = d['Provider Id']
       hospital['slug'] = self.slugify(hospital['name'])
-      # TODO: FIX THIS!
-      #hospital['doctors'] = []
-      #hospital['ratings'] = []
-      #hospital['rating'] = self.aggregate_rating(hospital['ratings'])
-      hospital['rating'] = self.aggregate_rating('FIXME!')
       hospital['type'] = 'hospital'
 
       hospital_node = @neo.get_node_index(HOSPITAL_SLUG_INDEX, 'slug', hospital['slug'])
@@ -90,7 +80,7 @@ module DbImports
 
       # operations
       operation = {}
-      operation['name'] = d['DRG Definition']
+      operation['name'] = self._clean_up_operation_name(d['DRG Definition'])
       operation['slug'] = slugify(operation['name'])
       operation['type'] = 'operation'
       # create the operation
@@ -104,9 +94,9 @@ module DbImports
 
       # price
       price = {}
-      price['total_discharge'] = d[' Total Discharges '].to_f
-      price['avg_covered_charge'] = d[' Average Covered Charges '].to_f
-      price['avg_total_payment'] = d[' Average Total Payments '].to_f
+      price['total_discharge'] = d[' Total Discharges '].to_i
+      price['avg_covered_charge'] = d[' Average Covered Charges '].to_i
+      price['avg_total_payment'] = d[' Average Total Payments '].to_i
       price_relationship = @neo.create_relationship('charges',
                                       hospital_node, operation_node)
       @neo.add_relationship_to_index(PRICE_VALUE_INDEX, 'avg_total_payment',
@@ -222,6 +212,28 @@ module DbImports
     }
 
     candidates.inject{|a,e| a & e}
+  end
+
+  def self._clean_up_hospital_name(name)
+    name.strip.split(' ').map{|x| x.capitalize}.join(' ')
+  end
+
+  def self._clean_up_operation_name(name)
+    name = name.gsub(/(\bW\/O\b)/,'without')
+    name = name.gsub(/(\bW\b)/,'with')
+
+    output = name.downcase.gsub(/[^a-z\s]+/,'').strip.gsub(/\s+/,' ')
+
+    output_parts = output.split(' ')
+    output_parts.each{|o|
+      if ['with','without'].include? o
+        o.downcase!
+      elsif ['mcc','cc','ccmcc'].include? o
+        o.upcase!
+      else
+        o.capitalize!
+      end
+    }.join(' ')
   end
 
 end
