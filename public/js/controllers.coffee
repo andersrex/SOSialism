@@ -1,8 +1,8 @@
 controllers = angular.module 'app.controllers', []
 
 controllers.controller "MainCtrl",
-["$scope", "Restangular", "$window", "$location", "$rootScope", "geocoder", "$timeout",
-($scope, Restangular, $window, $location, $rootScope, geocoder, $timeout) ->
+["$scope", "Restangular", "$window", "$location", "$rootScope", "$timeout",
+($scope, Restangular, $window, $location, $rootScope, $timeout) ->
   $scope.pin = new google.maps.MarkerImage("/images/pin.png", null, null, null, new google.maps.Size(35,35))
   $scope.markers = []
   $scope.mapOptions =
@@ -45,9 +45,10 @@ controllers.controller "MainCtrl",
         $scope.markers = []
 
         for result in results
-          result.lat = result.loc[0]
-          result.lng = result.loc[1]
-          $scope.addMarker(result)
+          if result.loc
+            result.lat = result.loc[0]
+            result.lng = result.loc[1]
+            $scope.addMarker(result)
     , true
 
   $scope.markerClicked = (m) ->
@@ -80,8 +81,8 @@ controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scop
 ]
 
 controllers.controller "SearchCtrl",
-["$scope","$routeParams", "Restangular", "geocoder", "$rootScope", "$location"
-($scope, $routeParams, Restangular, geocoder, $rootScope, $location) ->
+["$scope","$routeParams", "Restangular", "$rootScope", "$location"
+($scope, $routeParams, Restangular, $rootScope, $location) ->
 
   if $routeParams.operation
     if $routeParams.order is "rating"

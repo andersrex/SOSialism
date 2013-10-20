@@ -5,7 +5,7 @@
   controllers = angular.module('app.controllers', []);
 
   controllers.controller("MainCtrl", [
-    "$scope", "Restangular", "$window", "$location", "$rootScope", "geocoder", "$timeout", function($scope, Restangular, $window, $location, $rootScope, geocoder, $timeout) {
+    "$scope", "Restangular", "$window", "$location", "$rootScope", "$timeout", function($scope, Restangular, $window, $location, $rootScope, $timeout) {
       var _this = this;
 
       $scope.pin = new google.maps.MarkerImage("/images/pin.png", null, null, null, new google.maps.Size(35, 35));
@@ -55,9 +55,13 @@
             _results = [];
             for (_j = 0, _len1 = results.length; _j < _len1; _j++) {
               result = results[_j];
-              result.lat = result.loc[0];
-              result.lng = result.loc[1];
-              _results.push($scope.addMarker(result));
+              if (result.loc) {
+                result.lat = result.loc[0];
+                result.lng = result.loc[1];
+                _results.push($scope.addMarker(result));
+              } else {
+                _results.push(void 0);
+              }
             }
             return _results;
           }
@@ -100,7 +104,7 @@
   ]);
 
   controllers.controller("SearchCtrl", [
-    "$scope", "$routeParams", "Restangular", "geocoder", "$rootScope", "$location", function($scope, $routeParams, Restangular, geocoder, $rootScope, $location) {
+    "$scope", "$routeParams", "Restangular", "$rootScope", "$location", function($scope, $routeParams, Restangular, $rootScope, $location) {
       if ($routeParams.operation) {
         if ($routeParams.order === "rating") {
           $scope.orderByRatings = true;
