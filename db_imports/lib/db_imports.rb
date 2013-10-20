@@ -1,5 +1,6 @@
 require 'csv'
 require 'mongo'
+require 'geocoder'
 
 require 'db_imports/version'
 require 'db_imports/models/doctor'
@@ -22,6 +23,10 @@ module DbImports
   end
 
   def self.load_hospitals(data)
+
+    Geocoder.configure(
+      :lookup => :google
+    )
 
     logger = Logger.new(STDOUT)
     logger.level = Logger::DEBUG
@@ -72,6 +77,11 @@ module DbImports
 
       hospital_node = @neo.get_node_index(HOSPITAL_SLUG_INDEX, 'slug', hospital['slug'])
       if hospital_node.nil?
+        hospital['loc'] = Geocoder.coordinates(
+            "#{hospital['street']}, #{hospital['city']}, #{hospital['state']}"
+        )
+        sleep 2
+        logger.debug("hospital[#{hospital['slug']}] gets loc[#{hospital['loc']}]")
         hospital_node = @neo.create_node(hospital)
         @neo.add_node_to_index(HOSPITAL_SLUG_INDEX, 'slug', hospital['slug'], hospital_node)
         @neo.add_node_to_index(TYPE_INDEX, 'type', hospital['type'], hospital_node)
