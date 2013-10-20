@@ -66,14 +66,9 @@ controllers.controller "SearchCtrl",
   $scope.markerClicked = ->
 
   # Markers should be added after map is loaded
-  # $scope.onMapIdle = ->
   $scope.onMapReady = =>
-    console.log "onMapReady"
     $scope.$watch "results", ->
       if $scope.results and $scope.results.length and not $scope.mapLoaded
-        console.log "map results changed!"
-
-
         $scope.mapLoaded = true
 
         for m in $scope.markers
