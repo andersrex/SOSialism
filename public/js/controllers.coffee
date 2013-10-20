@@ -8,7 +8,7 @@ controllers.controller "MainCtrl",
   $scope.mapOptions =
     backgroundColor: "#eeeeee"
     center: new google.maps.LatLng(37.780015, -122.446937)
-    zoom: 13
+    zoom: 12
     mapTypeId: google.maps.MapTypeId.ROADMAP
     streetViewControl: false
     panControl: false
@@ -63,6 +63,7 @@ controllers.controller "MainCtrl",
 
   $rootScope.clickMarker = (index) ->
     $scope.markerClicked($scope.markers[index])
+    $rootScope.selectResultByIndex(index)
 
   $scope.addMarker = (result) ->
     console.log "Adding marker to", result.lng, result.lng
@@ -99,6 +100,10 @@ controllers.controller "SearchCtrl",
     $scope.selectedResult = result
     $rootScope.clickMarker(index)
     console.log "Selecting #{index}"
+
+  $rootScope.selectResultByIndex = (index) ->
+    console.log "asdf"
+    $scope.selectedResult = $scope.results[index]
 
   $scope.search = ->
     $scope.orderByRatings = false

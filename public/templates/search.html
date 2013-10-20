@@ -11,15 +11,16 @@
     <div class="results-filters">Sort by
         <a ng-click="search()" href="" ng-class="{selected: !orderByRatings}">price</a>
         /
-        <a ng-click="searchRatings()" ng-class="{selected: orderByRatings}" href="">ratings</a>
+        <a ng-click="searchRatings()" ng-class="{selected: orderByRatings}" href="">rating</a>
     </div>
-    <div class="result" ng-repeat="result in results" ng-class="{selected: result == selectedResult}" ng-click="selectResult(result, $index)">
-        <div class="result-name">{{ result.name }}</div>
-        <div class="result-address">
-            {{ result.street }}, {{ result.city }}
+    <div class="results-list">
+        <div class="result" ng-repeat="result in results" ng-class="{selected: result == selectedResult}" ng-click="selectResult(result, $index)">
+            <div class="result-name">{{ result.name }}</div>
+            <div class="result-address">
+                {{ result.street }}, {{ result.city }}
+            </div>
+            <div class="result-price">${{ result.price }}</div>
+            <div class="result-stars stars{{ result.rating }}"></div>
         </div>
-        <div class="result-price">${{ result.price }}</div>
-        <div class="result-stars stars{{ result.rating }}"></div>
-
     </div>
 </div>

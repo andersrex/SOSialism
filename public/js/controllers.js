@@ -13,7 +13,7 @@
       $scope.mapOptions = {
         backgroundColor: "#eeeeee",
         center: new google.maps.LatLng(37.780015, -122.446937),
-        zoom: 13,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         streetViewControl: false,
         panControl: false,
@@ -75,7 +75,8 @@
         }, 1440);
       };
       $rootScope.clickMarker = function(index) {
-        return $scope.markerClicked($scope.markers[index]);
+        $scope.markerClicked($scope.markers[index]);
+        return $rootScope.selectResultByIndex(index);
       };
       return $scope.addMarker = function(result) {
         var marker;
@@ -123,6 +124,10 @@
         $scope.selectedResult = result;
         $rootScope.clickMarker(index);
         return console.log("Selecting " + index);
+      };
+      $rootScope.selectResultByIndex = function(index) {
+        console.log("asdf");
+        return $scope.selectedResult = $scope.results[index];
       };
       $scope.search = function() {
         $scope.orderByRatings = false;
