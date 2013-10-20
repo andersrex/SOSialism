@@ -23,16 +23,26 @@ header {
     border-bottom: 1px solid #dddddd;
 }
 
+.logo {
+    display: inline-block;
+    background: transparent url('../images/logo.png') no-repeat;
+    background-size: 186px 70px;
+    width: 186px;
+    height: 69px;
+}
+
 a {
     color: #72095c;
 }
 
 select {
-    border: 1px solid #dddddd;
+    border: 1px solid #55b8a9;
+    /*border: 1px solid #dddddd;*/
     outline: 0;
     color: #666;
     padding: 8px 10px;
-    background: #fbfbfb;
+    background: transparent;
+    /*background: #fbfbfb;*/
     -webkit-appearance: none;
     line-height: 120%;
     font-size: 16px;
@@ -50,8 +60,9 @@ select {
 }
 
 .go-button {
-    color: #666;
-    border: 1px solid #dddddd;
+    color: #55b8a9;
+    border: 1px solid #55b8a9;
+
     background: white;
     width: 200px;
     padding: 8px;
@@ -65,7 +76,7 @@ select {
 
 .go-button:hover {
     background: white;
-    border: 1px solid #cccccc;
+    border: 1px solid #55b8a9;
 }
 
 
@@ -73,13 +84,30 @@ select {
     background: #eee
 }
 
+.filter {
+    color: #999;
+    font-size: 13px;
+    float: right;
+    margin-top: 17px;
+    margin-right: 17px;
+}
+
+.filter .go-button {
+    width: auto;
+    margin-left: 10px;
+}
+
+.filter select {
+    font-size: 13px;
+}
+
 
 .jumbotron {
     background-color: #f4f4f4;
     width: 100%;
-    height: 300px;
     text-align: center;
     padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 .about {
@@ -123,7 +151,7 @@ select {
     bottom: 30px;
     left: 30px;
     width: 300px;
-    background: rgba(255,255,255, 0.9);
+    background: rgba(255,255,255, 0.85);
     overflow-y: scroll;
 
     -webkit-border-radius: 2px;
@@ -137,14 +165,23 @@ select {
     text-align: center;
     /*padding: 0 20px;*/
     font-size: 13px;
-    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+    /*border-bottom: 1px solid rgba(100, 100, 100, 0.1);*/
 }
 
 .result {
     position: relative;
     padding: 20px;
-    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+    border-top: 1px solid rgba(100, 100, 100, 0.1);
     cursor: pointer;
+}
+
+.result:last-child {
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+}
+
+.selected.result {
+    border-top: 1px solid rgba(100, 100, 100, 0.3);
+    background: rgba(160, 160, 160, 0.1);
 }
 
 .result-name {
@@ -157,7 +194,7 @@ select {
     text-overflow: ellipsis;
 }
 .result-address {
-    color: #999;
+    color: #888;
     font-size: 12px;
     /*margin-bottom: 5px;*/
     padding-right: 60px;
@@ -169,7 +206,7 @@ select {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: #94177a;
+    color: #55b8a9;
 }
 
 .result-stars {
@@ -179,7 +216,7 @@ select {
 
     background: transparent;
     background: transparent url('../images/stars_map.png') no-repeat;
-    background-size: 84px 325px;
+    /*background-size: 84px 325px;*/
     background-size: 42px 167px;
     height: 8px;
     width: 42px;
@@ -190,21 +227,67 @@ select {
         height: 44px;
     }
 
+    .logo {
+        display: block;
+        background: transparent url('../images/logo.png') no-repeat;
+        background-size: 117px 44px;
+        width: 117px;
+        height: 43px;
+    }
+
+    .results-filters {
+        /*border-top: 1px solid rgba(100, 100, 100, 0.1);*/
+        border-top: 1px solid #dddddd;
+    }
+
+    .back {
+        display: inline-block;
+        background: transparent url('../images/back.png') no-repeat;
+        background-size: 44px 44px;
+        width: 44px;
+        height: 43px;
+    }
+
+    .back:active {
+        opacity: 0.5;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        margin-left: -64px;
+    }
+
+    .filter {
+        display: none;
+    }
+
     .map {
         height: 160px;
+    }
+
+    .jumbotron select {
+        display: block;
+        margin: 15px auto;
+    }
+
+    .jumbotron {
+        height: 100%;
     }
 
     .search-container {
         top: 44px;
     }
 
-
     .results {
-        position: relative;
         width: 100%;
-        background: transparent;
         top: 160px;
         bottom: 0px;
         left: 0px;
+        overflow-y: auto;
+    }
+
+    .result {
+        background: white;
     }
 }
