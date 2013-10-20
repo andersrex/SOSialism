@@ -31,7 +31,6 @@ controllers.controller "MainCtrl",
   $scope.$on '$locationChangeSuccess', (event) ->
     $scope.selection = $window.location.hash.split("/")[2]
     $rootScope.page = $scope.page = $window.location.hash.split("/")[1]
-    console.log "$locationChangeSuccess", $scope.selection
 
   # Markers should be added after map is loaded
   $scope.onMapReady = =>
@@ -46,7 +45,7 @@ controllers.controller "MainCtrl",
         $scope.markers = []
 
         for result in results
-          geocoder.geocode("#{result.street}, #{result.city}").then (location) ->
+          geocoder.geocode("#{result.street}, #{result.city}, #{result.state} #{result.zip}").then (location) ->
             result.lat = location.lat()
             result.lng = location.lng()
             $scope.addMarker(result)
@@ -54,8 +53,9 @@ controllers.controller "MainCtrl",
 
   $scope.markerClicked = (m) ->
     $scope.map.panTo(m.position)
-    console.log "panTo", m.position.lat(), m.position.lng()
     m.setAnimation(google.maps.Animation.BOUNCE)
+
+    $rootScope.selectResultByIndex($scope.markers.indexOf(m))
 
     $timeout ->
       m.setAnimation(null)
@@ -66,7 +66,6 @@ controllers.controller "MainCtrl",
     $rootScope.selectResultByIndex(index)
 
   $scope.addMarker = (result) ->
-    console.log "Adding marker to", result.lng, result.lng
     marker = new google.maps.Marker
       map: $scope.map
       position: new google.maps.LatLng(result.lat, result.lng)
@@ -99,20 +98,16 @@ controllers.controller "SearchCtrl",
   $scope.selectResult = (result, index) ->
     $scope.selectedResult = result
     $rootScope.clickMarker(index)
-    console.log "Selecting #{index}"
 
   $rootScope.selectResultByIndex = (index) ->
-    console.log "asdf"
     $scope.selectedResult = $scope.results[index]
 
   $scope.search = ->
     $scope.orderByRatings = false
-    console.log "false"
     $location.path("/search/#{$routeParams.operation}") if $routeParams.operation
 
   $scope.searchRatings = ->
     $scope.orderByRatings = true
-    console.log "true"
     $location.path("/search/#{$routeParams.operation}/rating") if $routeParams.operation
 ]
 
