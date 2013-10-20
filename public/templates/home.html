@@ -1,11 +1,11 @@
 <div class="home-container">
     <div class="jumbotron">
-        Find prices and ratings for a
+        Compare prices and ratings for a
         <select ng-model="selection">
             <option value="">...</option>
             <option ng-repeat="operation in operations" value="{{operation.slug}}">{{operation.name}}</option>
         </select>
-        in San Francisco.
+        in the Bay Area.
         <div class="button-container">
             <a ng-click="search()" class="go-button" href="">Go!</a>
         </div>
@@ -14,8 +14,8 @@
         <div class="about">
             <h1>What is Sosialism?</h1>
             <p><i>"Whatever you do with health care, someone is going to call it socialism."</i></p>
-            <p>The Sosialism web app helps you compare different operations at different hospitals based on price and quality. Super handy if you need to get a brain surgery and are on a tight budget!</p>
-            <p>Plaster was born at the AngelHack Hospital. The birth lasted less than 24h and was assisted by and data surgeon Tele Hao and code doctor Anders Rex. Powered by CMS.gov and Yelp.</p>
+            <p>The Sosialism web app helps you compare different operations at different hospitals based on price and quality. Super handy if you need a brain surgery and are on a tight budget!</p>
+            <p>Sosialism was born at the AngelHack Hospital. The birth lasted one day and was assisted by and data surgeon <a target="_blank" href="http://www.linkedin.com/in/hotloo/">Tele Hao</a> and web doctor <a target="_blank" href="http://andersrex.com">Anders Rex</a>. Powered by <a target="_blank" href="http://cms.gov">CMS.gov</a> and <a target="_blank" href="http://yelp.com">Yelp</a>.</p>
             <p>Chapeau!</p>
         </div>
     </div>

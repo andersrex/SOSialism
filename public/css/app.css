@@ -45,15 +45,14 @@ a {
 
 select {
     border: 1px solid #55b8a9;
-    /*border: 1px solid #dddddd;*/
     outline: 0;
     color: #666;
     padding: 8px 10px;
     background: transparent;
-    /*background: #fbfbfb;*/
     -webkit-appearance: none;
     line-height: 120%;
     font-size: 16px;
+
 
     margin: 0px 10px;
 
@@ -96,7 +95,7 @@ select {
 }
 
 .filter {
-    color: #999;
+    /*color: #999;*/
     font-size: 13px;
     float: right;
     margin-top: 17px;
@@ -165,14 +164,22 @@ select {
     left: 30px;
     width: 300px;
     background: rgba(255,255,255, 0.9);
-    overflow-y: scroll;
+    overflow-y: hidden;
+
 
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
 }
 
+.results-list {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+}
+
 .results-filters {
+
     line-height: 30px;
     color: #999;
     padding: 2px 0;
