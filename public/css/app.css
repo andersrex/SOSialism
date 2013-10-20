@@ -34,7 +34,7 @@ header {
 }
 
 a {
-    color: #72095c;
+    color: #55b8a9;
 }
 
 .main-container {
@@ -173,10 +173,24 @@ select {
 }
 
 .results-filters {
+    line-height: 30px;
     color: #999;
     padding: 2px 0;
     text-align: center;
     font-size: 13px;
+}
+
+.results-filters a {
+    text-decoration: none;
+    padding: 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin: 0 5px;
+}
+
+.results-filters .selected {
+    border: 1px dashed #55b8a9;
 }
 
 .result {
