@@ -70,8 +70,10 @@ select {
 .go-button {
     color: #55b8a9;
     border: 1px solid #55b8a9;
+    background: rgba(255, 255, 255, 0.95);
 
-    background: white;
+
+    /*background: white;*/
     width: 200px;
     padding: 8px;
     -webkit-border-radius: 5px;
@@ -83,13 +85,14 @@ select {
 }
 
 .go-button:hover {
+    background: rgba(255, 255, 255, 1);
     background: white;
     border: 1px solid #55b8a9;
 }
 
 
 .go-button:active {
-    background: #eee
+    background: rgba(160, 160, 160, 0.1)
 }
 
 .filter {
@@ -111,19 +114,11 @@ select {
 
 
 .jumbotron {
-    /*background-color: #f4f4f4;*/
     width: 100%;
     text-align: center;
     padding-top: 60px;
     padding-bottom: 40px;
 }
-
-.about-container {
-    /*position: absolute;*/
-    /*top: 100%;*/
-    /*width: 100%;*/
-}
-
 
 .about {
     max-width: 500px;
@@ -160,6 +155,7 @@ select {
     position: absolute;
     top: 70px; right: 0; bottom: 0; left: 0;
     background: rgba(255,255,255, 0.9);
+    overflow-y: auto;
 }
 
 .results {
@@ -171,9 +167,9 @@ select {
     background: rgba(255,255,255, 0.9);
     overflow-y: scroll;
 
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 .results-filters {
@@ -231,10 +227,29 @@ select {
 
     background: transparent;
     background: transparent url('../images/stars_map.png') no-repeat;
-    /*background-size: 84px 325px;*/
     background-size: 42px 167px;
-    height: 8px;
+    background-position: 0px 1px;
+    /*background-position: 0 -86px;*/
+    height: 10px;
     width: 42px;
+}
+
+.result-stars.stars1 {
+    background-position: 0 -8px;
+
+}
+.result-stars.stars2 {
+    background-position: 0 -28px;
+
+}
+.result-stars.stars3 {
+    background-position: 0 -48px;
+}
+.result-stars.stars4 {
+    background-position: 0 -68px;
+}
+.result-stars.stars5 {
+    background-position: 0 -86px;
 }
 
 @media (max-width: 767px) {
@@ -296,9 +311,9 @@ select {
         bottom: 0px;
         left: 0px;
         overflow-y: auto;
-    }
 
-    /*.result {*/
-        /*background: white;*/
-    /*}*/
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        border-radius: 0px;
+    }
 }

@@ -6,7 +6,7 @@ controllers.controller "MainCtrl",
   $scope.pin = new google.maps.MarkerImage("/images/pin.png", null, null, null, new google.maps.Size(35,35))
   $scope.markers = []
   $scope.mapOptions =
-    backgroundColor: "#edeae3"
+    backgroundColor: "#eeeeee"
     center: new google.maps.LatLng(37.780015, -122.446937)
     zoom: 13
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -76,15 +76,8 @@ controllers.controller "MainCtrl",
 ]
 
 controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scope, Restangular, $location) ->
-
   $scope.search = ->
     $location.path("/search/#{$scope.selection}") if $scope.selection
-
-
-#  Restangular.one('operations').getList().then (operations) ->
-#    console.log operations
-#    $scope.operations = operations
-
 ]
 
 controllers.controller "SearchCtrl",
@@ -99,6 +92,10 @@ controllers.controller "SearchCtrl",
     $scope.selectedResult = result
     $rootScope.clickMarker(index)
     console.log "Selecting #{index}"
+]
+
+#  $scope.search = ->
+#    $location.path("/search/#{$scope.selection}") if $scope.selection
 
 
 
