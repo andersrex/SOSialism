@@ -12,15 +12,10 @@ namespace :db_import do
     DbImports.load_hospitals(data_flow)
   end
 
-  desc 'import doctors'
-  task :import_doctors do
+  desc 'associate relevant doctors'
+  task :associate_relevant_doctor do
     init_db
-    DbImports.load_doctors
-  end
-
-  desc 'import operations'
-  task :import_operations do
-    DbImports.load_operations
+    DbImports.associate_relevant_doctors
   end
 
   desc 'wipe graph'
