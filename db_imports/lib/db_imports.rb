@@ -13,6 +13,7 @@ module DbImports
   HOSPITAL_SLUG_INDEX = 'hospital_slug'
   OPERATION_SLUG_INDEX = 'operation_slug'
   PRICE_VALUE_INDEX = 'price_value'
+  TYPE_INDEX = 'data_type'
 
   attr_accessor :neo
 
@@ -40,6 +41,10 @@ module DbImports
     @neo.create_relationship_index(PRICE_VALUE_INDEX) unless
         @neo.list_relationship_indexes.nil? or
         @neo.list_relationship_indexes.include? PRICE_VALUE_INDEX
+    @neo.create_node_index(TYPE_INDEX) unless
+        @neo.list_node_indexes.nil? or
+        @neo.list_node_indexes.include? TYPE_INDEX
+
 
     # header
     # DRG Definition,
@@ -72,11 +77,13 @@ module DbImports
       #hospital['ratings'] = []
       #hospital['rating'] = self.aggregate_rating(hospital['ratings'])
       hospital['rating'] = self.aggregate_rating('FIXME!')
+      hospital['type'] = 'hospital'
 
       hospital_node = @neo.get_node_index(HOSPITAL_SLUG_INDEX, 'slug', hospital['slug'])
       if hospital_node.nil?
         hospital_node = @neo.create_node(hospital)
         @neo.add_node_to_index(HOSPITAL_SLUG_INDEX, 'slug', hospital['slug'], hospital_node)
+        @neo.add_node_to_index(TYPE_INDEX, 'type', hospital['type'], hospital_node)
         logger.debug("#{hospital['slug']} added to index #{HOSPITAL_SLUG_INDEX}")
       end
 
@@ -84,11 +91,13 @@ module DbImports
       operation = {}
       operation['name'] = d['DRG Definition']
       operation['slug'] = slugify(operation['name'])
+      operation['type'] = 'operation'
       # create the operation
       operation_node = @neo.get_node_index(OPERATION_SLUG_INDEX, 'slug', operation['slug'])
       if operation_node.nil?
         operation_node = @neo.create_node(operation)
         @neo.add_node_to_index(OPERATION_SLUG_INDEX, 'slug', operation['slug'], operation_node)
+        @neo.add_node_to_index(TYPE_INDEX, 'type', operation['type'], operation_node)
         logger.debug("#{operation['slug']} added to index #{OPERATION_SLUG_INDEX}")
       end
 
