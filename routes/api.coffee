@@ -46,10 +46,11 @@ exports.hospitals = (req, res) ->
         street: hospital_data.street
         city: hospital_data.city
         zip: hospital_data.zip
+        loc: hospital_data.loc
         state: hospital_data.state
         rating: hospital_data.rating
 
-      output.push(temp)
+      output.push(temp) if temp.loc
 
     res.json output
 
