@@ -217,14 +217,13 @@ select {
 .result {
     position: relative;
     padding: 20px;
-    /*border-top: 1px solid rgba(100, 100, 100, 0.1);*/
-    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+    border-top: 1px solid rgba(100, 100, 100, 0.1);
     cursor: pointer;
 }
 
-/*.result:last-child {*/
-    /*border-bottom: 1px solid rgba(100, 100, 100, 0.1);*/
-/*}*/
+.result:last-child {
+    border-bottom: 1px solid rgba(100, 100, 100, 0.1);
+}
 
 .selected.result {
     border-top: 1px solid rgba(100, 100, 100, 0.3);
