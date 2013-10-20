@@ -5,7 +5,6 @@ exports.hospitals = (req, res) ->
   res.json [
     {
       name: "Hospital Blablabla"
-      location: ""
       street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
       operation: "Knee surgery"
       price: 250
@@ -13,8 +12,7 @@ exports.hospitals = (req, res) ->
     },
     {
       name: "Hospital LILILI"
-      location: ""
-      street: "165 Jessie st", city: "San Francisco", zip: "94105", state: "CA"
+      street: "1008 Capp st", city: "San Francisco", zip: "94105", state: "CA"
       operation: "Knee surgery"
       price: 200
       rating: 4
