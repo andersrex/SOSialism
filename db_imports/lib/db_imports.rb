@@ -1,4 +1,5 @@
 require 'csv'
+require 'mongo'
 
 require 'db_imports/version'
 require 'db_imports/models/doctor'
@@ -15,7 +16,7 @@ module DbImports
   PRICE_VALUE_INDEX = 'price_value'
   TYPE_INDEX = 'data_type'
 
-  attr_accessor :neo
+  attr_accessor :neo, :mongo
 
   def self.slugify(string)
     string.gsub(/[^\w\s]+/,'').gsub(/\s+/,' ').gsub(' ','-').downcase
@@ -116,12 +117,89 @@ module DbImports
 
   end
 
-  def self.load_doctors
+  def self.associate_relevant_doctors
+    # We retrive all the hospital name
+    # We retrive all the hospital address
+    logger = Logger.new(STDOUT)
+    logger.level = Logger::DEBUG
 
+    # initialize the DB
+    @neo ||= Neography::Rest.new
+    @neo.create_node_index(HOSPITAL_SLUG_INDEX) unless
+        @neo.list_node_indexes.nil? or
+        @neo.list_node_indexes.include? HOSPITAL_SLUG_INDEX
+
+
+    hospital_nodes = @neo.get_node_index(TYPE_INDEX, 'type', 'hospital')
+
+    hospital_nodes.each{|node|
+      # we want to get the ratings
+
+      # 1. We extract the hospital name
+      hospital_name = node['data']['name']
+
+      # 2. We extract the hospital address
+      hospital_address = {
+          'street' => node['data']['street'],
+          'city' => node['data']['city'],
+          'zip' => node['data']['zip'],
+          'state' => node['data']['state']
+      }
+
+      # 3. We query against the DB for the relevant DB.
+
+
+    } unless hospital_nodes.nil?
 
   end
 
-  def self.load_operations
+  def self._construct_search_pattern(opts)
+
+    doctors = []
+
+    self._query_db(opts).each{|doc|
+      # extract yelp ratings
+      doctors << {
+        'name' => "#{doc['profile']['f_name']} #{doc['profile']['l_name']}",
+        'rating' => {
+          'uid' => doc['ratings'].collect{|x| x['uid'] if x['provider'] == 'yelp'}.first,
+          'avg' => doc['ratings'].collect{|x| x['avg'] if x['provider'] == 'yelp'}.first
+        }
+      }
+    }
+
+    doctors
+  end
+
+  def self._format_address(address)
+    road_acronym = %W(BLVD PARKWAY BOULEVARD WAY RD ROAD ST STREET AVE AVENUE DRIVE DR)
+
+    # clean up numbers
+    _output = address.gsub(/\d+/, '')
+    # remove address type
+    output_parts = _output.strip.gsub(/\s+/, ' ').gsub(/[^\w\s]+/,'').split(' ') - road_acronym
+    # only street strings
+    output_parts.join(' ').downcase
+  end
+
+  def self._query_db(opts)
+    _mongo ||= Mongo::MongoClient.new
+    @mongo = _mongo.db('angelhack2013').collection('doctors')
+
+
+    street_parts = opts['street'].split(' ')
+    zip = opts['zip']
+
+    # 1. do single keyword search & do join
+    candidates = []
+    street_parts.each{|street|
+      candidates << @mongo.find(
+          {'practices.street' => /#{street}/i,
+           'practices.zip' => zip}, {:fields => ['profile.slugs', 'ratings']}).to_a
+    }
+
+
+
 
   end
 
