@@ -38,7 +38,7 @@ if app.get('env') is 'development'
 app.get '/', routes.index
 #app.get '/templates/:name', routes.templates
 
-app.get '/api/hospitals/:operation', api.hospitals
+app.get '/api/hospitals/:operations', api.hospitals
 app.get '/api/operations', api.operations
 
 app.get '*', routes.index
@@ -47,8 +47,7 @@ app.get '*', routes.index
 #  console.log "Listening on port #{app.get('port')}"
 
 http.createServer(app).listen app.get('port'), ->
-
-console.log 'Express server listening on port ' + app.get('port')
+  console.log 'Express server listening on port ' + app.get('port')
 
 #http.createServer(app).listen(app.get('port'), function () {
 #console.log('Express server listening on port ' + app.get('port'));
