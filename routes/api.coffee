@@ -6,6 +6,8 @@ exports.hospitals = (req, res) ->
   op_slug = req.params.operations
   conn = db.getConn()
 
+  order = req.query.order || 'price'
+
   query = [
     'START op=node:INDEX_NAME(INDEX_KEY="INDEX_VAL")',
     'MATCH (hospital) -[rel:FOLLOWS_REL]- (op)',
@@ -15,6 +17,16 @@ exports.hospitals = (req, res) ->
   .replace('INDEX_KEY', 'slug')
   .replace('INDEX_VAL', op_slug)
   .replace('FOLLOWS_REL', db.CHARGES)
+
+  query = [
+    query,
+    'ORDER BY hospital.rating DESC'
+  ].join('\n') if order == 'rating'
+
+  query = [
+    query,
+    'ORDER BY rel.avg_total_payment'
+  ].join('\n') if order == 'price'
 
   conn.query(query, {}, (err, data2) ->
     throw err if (err)
