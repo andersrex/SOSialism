@@ -132,40 +132,61 @@ module DbImports
 
     hospital_nodes = @neo.get_node_index(TYPE_INDEX, 'type', 'hospital')
 
+    logger.debug("##{hospital_nodes.size} returned")
     hospital_nodes.each{|node|
       # we want to get the ratings
 
-      # 1. We extract the hospital name
-      hospital_name = node['data']['name']
-
-      # 2. We extract the hospital address
+      # 1. We extract the hospital address
       hospital_address = {
-          'street' => node['data']['street'],
+          'street' => self._format_address(node['data']['street']),
           'city' => node['data']['city'],
           'zip' => node['data']['zip'],
           'state' => node['data']['state']
       }
+      logger.debug("node[#{node['data']['slug']}] got selected with addr[#{hospital_address}]")
 
-      # 3. We query against the DB for the relevant DB.
+      # 2. We query against the DB for the relevant DB.
+      doctor_ratings = self._search_doctors(hospital_address)
 
+      doctor_list = doctor_ratings.map{|doc| doc['slug']}
+      logger.debug("node[#{node['data']['slug']} got ##{doctor_list.size} doctors")
+      avg_rating_list = doctor_ratings.map{|doc_rating|
+        doc_rating['rating']['average_rating'].to_f unless
+            doc_rating['rating'].nil? or
+            doc_rating['rating']['average_rating'].nil?
+
+      } - [nil]
+      if avg_rating_list.size > 0
+        avg_rating = avg_rating_list.inject{|a,e| a + e} / avg_rating_list.size.to_f
+        logger.debug("node[#{node['data']['slug']} got ##{avg_rating} ratings")
+      else
+        # FIXME! make it -1
+        avg_rating = 0
+        logger.debug("node[#{node['data']['slug']} got ##{avg_rating} ratings")
+      end
+
+      # 3. We update the hospital data
+      @neo.set_node_properties(node, {'doctors' => doctor_list}) unless
+          doctor_list.nil? or doctor_list.empty?
+      @neo.set_node_properties(node, {'rating' => avg_rating.to_i}) unless avg_rating.nil?
 
     } unless hospital_nodes.nil?
 
   end
 
-  def self._construct_search_pattern(opts)
+  def self._search_doctors(opts)
 
     doctors = []
 
     self._query_db(opts).each{|doc|
       # extract yelp ratings
-      doctors << {
-        'name' => "#{doc['profile']['f_name']} #{doc['profile']['l_name']}",
-        'rating' => {
-          'uid' => doc['ratings'].collect{|x| x['uid'] if x['provider'] == 'yelp'}.first,
-          'avg' => doc['ratings'].collect{|x| x['avg'] if x['provider'] == 'yelp'}.first
-        }
-      }
+      doctor = {}
+      doctor['slug'] = doc['slugs'].first
+      rating = doc['ratings'].map{|x| x if x['provider'] == 'yelp'}
+      rating = rating - [nil]
+      doctor['rating'] = rating.first unless rating.nil? or rating.empty?
+
+      doctors << doctor
     }
 
     doctors
@@ -194,13 +215,13 @@ module DbImports
     candidates = []
     street_parts.each{|street|
       candidates << @mongo.find(
-          {'practices.street' => /#{street}/i,
-           'practices.zip' => zip}, {:fields => ['profile.slugs', 'ratings']}).to_a
+          {'practices.zip' => zip,
+           'practices.street' => /#{street}/i,
+           'ratings.provider' => 'yelp'},
+          {:fields => ['slugs', 'ratings']}).to_a
     }
 
-
-
-
+    candidates.inject{|a,e| a & e}
   end
 
 end
