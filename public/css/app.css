@@ -29,7 +29,6 @@ header {
     position: relative;
     z-index: 10000;
     background: rgba(255,255,255, 0.9);
-
 }
 
 .logo {
@@ -119,6 +118,10 @@ select {
 
 .filter select {
     font-size: 13px;
+}
+
+.filter-phone {
+    display: none;
 }
 
 
@@ -337,6 +340,18 @@ select {
 
     .filter {
         display: none;
+    }
+
+    .filter-phone {
+        display: block;
+
+        width: 100%;
+        background: rgba(255,255,255, 0.9);
+    }
+
+    .filter-phone select {
+        width: 90%;
+        margin: 4px 5%;
     }
 
     .jumbotron select {

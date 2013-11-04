@@ -10,6 +10,9 @@ block body
                 select(ng-model='selection' ng-options='operation.slug as operation.name for operation in operations')
                     option(value='') ...
                 | in the Bay Area.
+            .filter-phone(ng-show="page=='search'")
+                select(ng-model='selection' ng-options='operation.slug as operation.name for operation in operations')
+
 
 
             div(ng-include src="/templates/filter.html")
