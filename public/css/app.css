@@ -350,7 +350,7 @@ select {
 
     .results {
         width: 100%;
-        top: 60%;
+        top: 55%;
         bottom: 0px;
         left: 0px;
         overflow-y: auto;

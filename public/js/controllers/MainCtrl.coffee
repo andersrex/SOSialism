@@ -1,8 +1,7 @@
-controllers = angular.module 'app.controllers', []
-
-controllers.controller "MainCtrl",
+angular.module('app.controllers').controller "MainCtrl",
 ["$scope", "Restangular", "$window", "$location", "$rootScope", "$timeout",
 ($scope, Restangular, $window, $location, $rootScope, $timeout) ->
+
   $scope.pin = new google.maps.MarkerImage("/images/pin.png", null, null, null, new google.maps.Size(35,35))
   $scope.markers = []
   $scope.mapOptions =
@@ -32,7 +31,6 @@ controllers.controller "MainCtrl",
     $scope.selection = $window.location.hash.split("/")[2]
     $rootScope.page = $scope.page = $window.location.hash.split("/")[1]
 
-  # Markers should be added after map is loaded
   $scope.onMapReady = =>
     $rootScope.$watch "results", ->
       results = $rootScope.results
@@ -74,42 +72,3 @@ controllers.controller "MainCtrl",
 
     $scope.markers.push marker
 ]
-
-controllers.controller "HomeCtrl", ["$scope", "Restangular", "$location", ($scope, Restangular, $location) ->
-  $scope.search = ->
-    $location.path("/search/#{$scope.selection}") if $scope.selection
-]
-
-controllers.controller "SearchCtrl",
-["$scope","$routeParams", "Restangular", "$rootScope", "$location"
-($scope, $routeParams, Restangular, $rootScope, $location) ->
-
-  if $routeParams.operation
-    if $routeParams.order is "rating"
-      $scope.orderByRatings = true
-
-      Restangular.one('hospitals', $routeParams.operation).customGETLIST("", {order: "rating"}).then (results) ->
-        $rootScope.results = $scope.results = results
-    else
-      $scope.orderByRatings = false
-      Restangular.one('hospitals', $routeParams.operation).getList().then (results) ->
-        $rootScope.results = $scope.results = results
-
-  $scope.selectResult = (result, index) ->
-    $scope.selectedResult = result
-    $rootScope.clickMarker(index)
-
-  $rootScope.selectResultByIndex = (index) ->
-    $scope.selectedResult = $scope.results[index]
-
-  $scope.search = ->
-    $scope.orderByRatings = false
-    $location.path("/search/#{$routeParams.operation}") if $routeParams.operation
-
-  $scope.searchRatings = ->
-    $scope.orderByRatings = true
-    $location.path("/search/#{$routeParams.operation}/rating") if $routeParams.operation
-]
-
-
-

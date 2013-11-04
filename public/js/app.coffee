@@ -1,10 +1,11 @@
+angular.module 'app.controllers', []
+
 angular.module('app', [
   'ngRoute',
   "ui.map",
   "ui.event",
-  'app.controllers',
-  'app.services',
-  'restangular'
+  'restangular',
+  'app.controllers'
 ]).config ($routeProvider, $locationProvider, RestangularProvider) ->
   $routeProvider.when '/',
     templateUrl: 'templates/home.html',
@@ -20,7 +21,4 @@ angular.module('app', [
 
   RestangularProvider.setBaseUrl('/api/');
 
-
 #  $locationProvider.html5Mode(true)
-
-console.log "starting app"
