@@ -219,7 +219,7 @@ select {
 
 .result {
     position: relative;
-    padding: 20px;
+    padding: 10px 20px ;
     border-top: 1px solid rgba(100, 100, 100, 0.1);
     cursor: pointer;
 }
@@ -257,14 +257,14 @@ select {
 }
 .result-price {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 20px;
     color: #55b8a9;
 }
 
 .result-stars {
     position: absolute;
-    bottom: 20px;
+    bottom: 10px;
     right: 20px;
 
     background: transparent;
@@ -343,15 +343,17 @@ select {
     }
 
     .filter-phone {
+        box-sizing: border-box;
         display: block;
-
-        width: 100%;
+        padding: 4px;
         background: rgba(255,255,255, 0.9);
     }
 
     .filter-phone select {
-        width: 90%;
-        margin: 4px 5%;
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        margin: 0;
     }
 
     .jumbotron select {
