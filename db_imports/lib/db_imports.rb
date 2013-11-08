@@ -62,7 +62,7 @@ module DbImports
 
     data.each{|d|
 
-      next unless BAY_AREA_ZIP.include? d['Provider Zip Code'].to_i
+      #next unless BAY_AREA_ZIP.include? d['Provider Zip Code'].to_i
 
       # hospitals
       hospital = {}
